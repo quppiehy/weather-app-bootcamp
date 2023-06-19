@@ -1,20 +1,20 @@
 import React from "react";
 import logo from "./logo.png";
 import "./App.css";
+// import Form from "react-bootstrap/Form";
+// import 'bootstrap/dist/css/bootstrap.css';
+import ApiCall from "./Component/ApiCall";
 
-class App extends React.Component {
+export default class App extends React.Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+          <ApiCall />
+          <br />
         </header>
       </div>
     );
   }
 }
-
-export default App;
