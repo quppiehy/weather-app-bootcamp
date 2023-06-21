@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/weather-app-bootcamp/static/css/main.d0753a41.css",
-    "main.js": "/weather-app-bootcamp/static/js/main.0ea297d7.js",
+    "main.js": "/weather-app-bootcamp/static/js/main.66db33d9.js",
     "static/media/logo.png": "/weather-app-bootcamp/static/media/logo.e54ce6ab620f8c7135f3.png",
     "index.html": "/weather-app-bootcamp/index.html",
     "main.d0753a41.css.map": "/weather-app-bootcamp/static/css/main.d0753a41.css.map",
-    "main.0ea297d7.js.map": "/weather-app-bootcamp/static/js/main.0ea297d7.js.map"
+    "main.66db33d9.js.map": "/weather-app-bootcamp/static/js/main.66db33d9.js.map"
   },
   "entrypoints": [
     "static/css/main.d0753a41.css",
-    "static/js/main.0ea297d7.js"
+    "static/js/main.66db33d9.js"
   ]
 }
