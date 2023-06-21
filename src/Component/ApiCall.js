@@ -7,46 +7,49 @@ export default class ApiCall extends React.Component {
     super();
     this.state = {
       city: [],
+      cityForecast: [],
       input: "",
+      lat: "",
+      lon: "",
     };
-  }
-
-  componentDidUpdate() {
-    console.log(this.state.city);
   }
 
   handleChange = (e) => {
     const value = e.target.value;
-    this.setState({ input: value }, () => {
-      console.log(this.state.input);
-    });
+    this.setState({ input: value });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     axios
       .get(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${this.state.input}&limit=1&appid=cbcca65cc5df09daefa0db05b4f591c7`
+        `http://api.openweathermap.org/geo/1.0/direct?q=${this.state.input}&limit=1&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`
       )
       .then((data) => {
         console.log(data);
         const receivedLat = data.data[0].lat;
         const receivedLon = data.data[0].lon;
-        console.log(receivedLat, receivedLon);
+        this.setState({ lat: receivedLat, lon: receivedLon });
         return axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${receivedLat}&lon=${receivedLon}&appid=cbcca65cc5df09daefa0db05b4f591c7&units=metric`
+          `https://api.openweathermap.org/data/2.5/weather?lat=${receivedLat}&lon=${receivedLon}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=metric`
         );
       })
       .then((data) => {
         console.log(data.data);
-        this.setState(
-          {
-            city: data.data,
-          },
-          () => {
-            console.log(this.state.city);
-          }
+        this.setState({ city: data.data }, () => {
+          console.log(this.state.city.main.temp);
+        });
+      })
+      .then(() => {
+        return axios.get(
+          `https://api.openweathermap.org/data/2.5/forecast?lat=${this.state.lat}&lon=${this.state.lon}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=metric`
         );
+      })
+      .then((data) => {
+        console.log(data.data);
+        this.setState({ cityForecast: data.data }, () => {
+          console.log(this.state.cityForecast);
+        });
       })
       .catch((error) => {
         console.log("Api error is : " + error);
@@ -54,7 +57,6 @@ export default class ApiCall extends React.Component {
   };
 
   render() {
-    // const { city, weather, temp } = this.state;
     return (
       <div>
         <label for="cityname">City Name: </label>
@@ -67,10 +69,13 @@ export default class ApiCall extends React.Component {
         ></input>
         <input type="submit" value="submit" onClick={this.handleSubmit} />
         {this.state.city && Object.keys(this.state.city).length > 0 ? (
-          <ShowWeather city={this.state.city} />
+          <ShowWeather
+            city={this.state.city}
+            cityForecast={this.state.cityForecast}
+          />
         ) : (
           // <p>Tested</p>
-          <p>No Weather Data Available</p>
+          <p>Please enter a city name to get its weather data.</p>
         )}
         <br />
       </div>
